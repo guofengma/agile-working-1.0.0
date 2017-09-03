@@ -55,7 +55,7 @@ Page({
     var that = this;
     var data = e.detail.value
     if (validateInput(data)) {
-      modifySchedule(app.globalData.url, data, that.data.meetingRoomId,that.data.scheduleid,app.globalData.token,app.globalData.openId)
+      modifySchedule(app.globalData.url, data, that.data.meetingRoomId,that.data.scheduleid,app.globalData.token,app.globalData.openId,data.formId)
     }
 
   },
