@@ -89,9 +89,9 @@ function addSchedule(url, data, userInfo, openId,token,formId) {
   })
 }
 //修改会议
-function modifySchedule(url, data, meetingRoomId, scheduleid,token,openId) {
+function modifySchedule(url, data, meetingRoomId, scheduleid,token,openId,formId) {
   wx.request({
-    url: url + 'meetingRooms/' + meetingRoomId + '/schedule',
+    url: url + 'meetingRooms/' + meetingRoomId + '/schedule?formId=' + formId,
     data: {
       id: scheduleid,
       title: data.title,
