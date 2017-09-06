@@ -42,16 +42,10 @@ App({
       success: function (res) {
         wx.request({
           //获取openid接口
-          url: 'https://api.weixin.qq.com/sns/jscode2session',
-          data: {
-            appid: 'wx4d8a2edf037d61e9',
-            secret: 'bbd52b658d07b218be171f1e99f1b092',
-            js_code: res.code,
-            grant_type: 'authorization_code'
-          },
+          url: that.globalData.url + 'wechat/openid/' + res.code,
           method: 'GET',
           success: function (res) {
-            that.globalData.openId = res.data.openid
+            that.globalData.openId = res.data.payload
           }
         })
       }
