@@ -18,8 +18,3 @@
     </view>
   </form>
 </view>
-<view class="weui-msg__extra-area">
-  <view class="weui-footer">
-    <view class="weui-footer__text">Copyright © 2017 交通银行软件开发中心（深圳）二部</view>
-  </view>
-</view>
