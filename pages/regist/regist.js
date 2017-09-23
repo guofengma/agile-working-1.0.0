@@ -26,7 +26,7 @@ Page({
     app.globalData.teamId = this.data.teams[e.detail.value].id
     console.log("选择的id" + app.globalData.teamId)
   },
-  registBtnClick:function(e){
+  formSubmit:function(e){
     var data = e.detail.value
     if(data.name==""){
       wx.showModal({
