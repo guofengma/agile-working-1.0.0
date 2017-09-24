@@ -1,3 +1,4 @@
+import { getOpenId } from "service/service.js" 
 App({
   getMeetingRooms: function (cb) {
     var that = this
@@ -40,14 +41,10 @@ App({
     var that = this
     wx.login({
       success: function (res) {
-        wx.request({
-          //获取openid接口
-          url: that.globalData.url + 'wechat/openid/' + res.code,
-          method: 'GET',
-          success: function (res) {
-            that.globalData.openId = res.data.payload
-          }
+        getOpenId(that,res.code,function(openId){
+          that.globalData.openId=openId
         })
+      
       }
     })
     //获取用户信息
@@ -66,5 +63,6 @@ App({
     teams: null,
     member:null,
     teamIndex:0,
+    teamId:'',
   }
 })
