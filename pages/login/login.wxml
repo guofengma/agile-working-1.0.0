@@ -4,15 +4,11 @@
     </view>
   <form bindsubmit="loginBtnClick">
     <view class="section">
-      <view class="section__title">部门：</view>
+      <view class="section__title">部门:</view>
       <picker bindchange="bindSelectTeam" name="teamIndex" value="{{teamIndex}}" range="{{teams}}" range-key="name">
         <view>{{teams[teamIndex].name}}</view>
       </picker>
     </view>
-   <!--<view class="section">
-      <view class="section__title">密码：</view>
-      <input password type="text" name="password" value="{{password}}" placeholder="密码" />
-    </view> --> 
     <view id='button'>
       <button formType="submit">登录</button>
     </view>
