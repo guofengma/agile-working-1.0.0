@@ -46,14 +46,9 @@ Page({
 
   },
   detail: function (e) {
-    var schedule = this.data.schedule
-    queryScheduleById(app.globalData.url, e.currentTarget.dataset.scheduleid, app.globalData.token, app.globalData.openId, this, function (schedule) {
-      var currentschedule = JSON.stringify(schedule);
-      wx.navigateTo({
-        url: '../schedule/detail/detail?currentschedule=' + currentschedule
-      })
+    wx.navigateTo({
+      url: '../schedule/detail/detail?currentscheduleId=' + e.currentTarget.dataset.scheduleid
     })
-
   },
   addSchedule: function (e) {
     wx.switchTab({
