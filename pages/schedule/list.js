@@ -47,6 +47,15 @@ Page({
             sliderLeft: (res.windowWidth / app.globalData.meetingRooms.length - sliderWidth) / 2,
             sliderOffset: res.windowWidth / app.globalData.meetingRooms.length * that.data.activeIndex
           });
+           if(res.windowHeight<555){
+            that.setData({
+              scrollYStyle: "height: 200px;"
+            })
+          }else {
+            that.setData({
+              scrollYStyle: "height: 280px;"
+            })
+          }
         }
       });
       that.querySchedulebyDate(app.globalData.currentSelectedDate)
