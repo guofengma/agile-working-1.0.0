@@ -47,7 +47,7 @@
 
               <block wx:for="{{schedules}}" wx:key="id" wx:for-index="idx">
                 <view class="kind-list__item">
-                  <view id="{{item.id}}" class="weui-flex kind-list__item-hd {{item.repeatMode=='N'?'item-normal':'item-repeat'}}" data-currentschedules="{{item}}" bindtap="detail">
+                  <view id="{{item.id}}" class="weui-flex kind-list__item-hd {{item.repeatMode=='N'?'item-normal':'item-repeat'}}" data-currentscheduleid="{{item.id}}" bindtap="detail">
                     <view class="weui-flex__item">{{item.title}}
                       <view style="font-size:12px;">{{item.date}}{{item.startTime > '18:00'?' 晚上':''}}{{item.endTime
                         <='12:00' ? ' 上午': ''}} {{item.startTime>='12:00'&&item.endTime
