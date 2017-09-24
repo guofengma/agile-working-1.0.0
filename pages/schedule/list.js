@@ -188,9 +188,8 @@ Page({
 
   },
   detail: function (e) {
-    var currentschedule = JSON.stringify(e.currentTarget.dataset.currentschedules);
     wx.navigateTo({
-      url: '../schedule/detail/detail?currentschedule=' + currentschedule
+      url: '../schedule/detail/detail?currentscheduleId=' + e.currentTarget.dataset.currentscheduleid
     })
   },
   querySchedulebyDate: function (date) {
