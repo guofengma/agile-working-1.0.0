@@ -1,5 +1,5 @@
 let app = getApp()
-import { joinSchedule, queryTeamMember} from "../../../service/service.js" 
+import { joinSchedule, queryTeamMember, queryScheduleById} from "../../../service/service.js" 
 Page({
   data: {
     isHidden: false,
@@ -19,11 +19,13 @@ Page({
   },
   onLoad: function (options) {
     var that = this;
-    let currentscheduleDetail = JSON.parse(options.currentschedule);
-    this.setData({
-      currentschedule: options.currentschedule,
-      currentscheduleDetail: currentscheduleDetail,
+    queryScheduleById(app.globalData.url, options.currentscheduleId, app.globalData.token, app.globalData.openId, this, function (schedule) {
+      var currentschedule = JSON.stringify(schedule);
+      that.setData({
+        currentschedule: currentschedule,
+        currentscheduleDetail: schedule,
 
+      })
     })
     if (options.isInvite == "true") {
       this.setData({
@@ -40,6 +42,7 @@ Page({
           }
         ]
       })
+
     }
     if (options.isHidden == "true") {
         this.setData({
@@ -106,7 +109,7 @@ Page({
     }
     return {
       title: '邀请您加入会议:' + that.data.currentscheduleDetail.title,
-      path: 'pages/schedule/detail/detail?currentschedule=' + that.data.currentschedule + '&isInvite=true',
+      path: 'pages/schedule/detail/detail?currentscheduleId=' + that.data.currentscheduleDetail.id + '&isInvite=true',
       success: function (res) {
       },
       fail: function (res) {
