@@ -85,6 +85,7 @@ Page({
       title: '退出当前登录？',
       success: function (res) {
         if (res.confirm) {
+          wx.setStorageSync('isLogin', false)
         wx.navigateTo({
           url: '../login/login',
         })
