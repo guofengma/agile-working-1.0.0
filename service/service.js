@@ -16,7 +16,7 @@ function validateInput(input) {
   return true;
 }
 //查询会议
-function querySchedule(url, meetingRoomId, date, that,token,openId) {
+function querySchedule(url, meetingRoomId, date, that, token, openId) {
   wx.request({
     url: url + 'meetingRooms/' + meetingRoomId + '/schedule?date=' + date,
     method: 'GET',
@@ -40,9 +40,9 @@ function querySchedule(url, meetingRoomId, date, that,token,openId) {
 
 }
 //预定会议
-function addSchedule(url, data, userInfo, openId,token,formId) {
+function addSchedule(url, data, userInfo, openId, token, formId) {
   wx.request({
-    url: url + 'meetingRooms/' + data.id + '/schedule?formId='+formId,
+    url: url + 'meetingRooms/' + data.id + '/schedule?formId=' + formId,
     data: {
       title: data.title,
       date: data.date,
@@ -56,7 +56,7 @@ function addSchedule(url, data, userInfo, openId,token,formId) {
     },
     header: {
       'content-type': 'application/json',
-       Authorization: token,
+      Authorization: token,
       Subject: openId,
     },
     method: 'POST',
@@ -89,7 +89,7 @@ function addSchedule(url, data, userInfo, openId,token,formId) {
   })
 }
 //修改会议
-function modifySchedule(url, data, meetingRoomId, scheduleid,token,openId,formId) {
+function modifySchedule(url, data, meetingRoomId, scheduleid, token, openId, formId) {
   wx.request({
     url: url + 'meetingRooms/' + meetingRoomId + '/schedule?formId=' + formId,
     data: {
@@ -102,7 +102,7 @@ function modifySchedule(url, data, meetingRoomId, scheduleid,token,openId,formId
     },
     header: {
       'content-type': 'application/json',
-       Authorization: token,
+      Authorization: token,
       Subject: openId,
     },
     method: 'POST',
@@ -135,7 +135,7 @@ function modifySchedule(url, data, meetingRoomId, scheduleid,token,openId,formId
   })
 }
 //删除会议
-function deleteSchedule(url, scheduleid,token,openId) {
+function deleteSchedule(url, scheduleid, token, openId) {
   wx.request({
     url: url + 'meetingRooms/schedule/' + scheduleid,
     method: 'DELETE',
@@ -158,7 +158,7 @@ function deleteSchedule(url, scheduleid,token,openId) {
   })
 }
 //加入会议
-function joinSchedule(url, userInfo, currentscheduleDetail, openId,token,formId) {
+function joinSchedule(url, userInfo, currentscheduleDetail, openId, token, formId) {
   //console.log("url:" + url + "|userInfo:" + userInfo.nickName + "|userInfo:" + userInfo.avatarUrl + "|currentscheduleDetail.id:" + currentscheduleDetail.id + "|openId:"+openId+'|token:'+token+'|formId: '+formId)
   wx.request({
     url: url + 'schedules/' + currentscheduleDetail.id + '/join',
@@ -167,12 +167,12 @@ function joinSchedule(url, userInfo, currentscheduleDetail, openId,token,formId)
       date: currentscheduleDetail.date,
       nickName: userInfo.nickName,
       avatarUrl: userInfo.avatarUrl,
-      formId:formId,
+      formId: formId,
 
     },
     header: {
       'content-type': 'application/json',
-       Authorization: token,
+      Authorization: token,
       Subject: openId,
     },
     method: 'POST',
@@ -197,7 +197,7 @@ function joinSchedule(url, userInfo, currentscheduleDetail, openId,token,formId)
   })
 }
 //查询加入的会议
-function queryJoinSchedule(url, openId, date, that,token) {
+function queryJoinSchedule(url, openId, date, that, token) {
   wx.request({
     url: url + 'participant/' + openId + '?date=' + date,
     method: 'GET',
@@ -275,9 +275,9 @@ function queryTeamMember(url, that, cb) {
   }
 }
 //加入团队
-function joinTeam(app, data,inviteBand) {
+function joinTeam(app, data, inviteBand) {
   wx.request({
-    url: app.globalData.url + 'team/' + app.globalData.teamId + '/join?token='+data.token,
+    url: app.globalData.url + 'team/' + app.globalData.teamId + '/join?token=' + data.token,
     data: {
       name: data.name,
       mobileNo: data.mobileNo,
@@ -291,56 +291,71 @@ function joinTeam(app, data,inviteBand) {
     },
     method: 'POST',
     success: function (res) {
-      if(res.data.success){
+      if (res.data.success) {
         app.globalData.token = res.data.headers.token
+        wx.setStorageSync('isLogin', true)
         wx.showToast({
           title: '绑定成功',
         })
-        if (inviteBand=="y"){
+        if (inviteBand == "y") {
           wx.navigateBack({
-            
+
           })
-        }else{
+        } else {
           wx.switchTab({
             url: '../schedule/list',
           })
         }
-       
+
         console.log("======================加入团队成功================")
       }
-      else{
-       wx.showModal({
-         title: '绑定失败',
-         content: res.data.responseCode+':'+res.data.responseMessage,
-       })
-       console.log("======================加入团队失败================")
+      else {
+        wx.showModal({
+          title: '绑定失败',
+          content: res.data.responseCode + ':' + res.data.responseMessage,
+        })
+        console.log("======================加入团队失败================")
       }
     }
   })
 }
-function queryScheduleById(url,id,token,openId,that,cb){
+function queryScheduleById(url, id, token, openId, that, cb) {
   if (that.data.schedule) {
     typeof cb == "function" && cb(that.data.schedule)
   } else {
-  wx.request({
-    url: url + 'schedules/' + id,
-    method: 'GET',
-    header: {
-      Authorization: token,
-      Subject: openId,
-    },
-    success: function (res) {
-      if (res.data.success) {
-        typeof cb == "function" && cb(res.data.payload)
-      }
+    wx.request({
+      url: url + 'schedules/' + id,
+      method: 'GET',
+      header: {
+        Authorization: token,
+        Subject: openId,
+      },
+      success: function (res) {
+        if (res.data.success) {
+          typeof cb == "function" && cb(res.data.payload)
+        }
 
-      console.log("========================查询指定会议成功====================")
-    },
-    fail: function () {
-      console.log("========================查询指定会议失败====================")
-    }
-  })
+        console.log("========================查询指定会议成功====================")
+      },
+      fail: function () {
+        console.log("========================查询指定会议失败====================")
+      }
+    })
   }
 }
-export { validateInput, querySchedule, addSchedule, modifySchedule, deleteSchedule, joinSchedule, queryJoinSchedule, queryTeam, queryTeamMember, joinTeam, queryScheduleById }
+function getOpenId(that,code,cb) {
+  if (that.globalData.openId) {
+    typeof cb == "function" && cb(that.globalData.openId)
+  } else {
+    wx.request({
+      //获取openid接口
+      url: that.globalData.url + 'wechat/openid/' + code,
+      method: 'GET',
+      success: function (res) {
+        typeof cb == "function" && cb(res.data.payload)
+      }
+    })
+  }
+}
+export { validateInput, querySchedule, addSchedule, modifySchedule, deleteSchedule, joinSchedule, queryJoinSchedule, queryTeam, queryTeamMember, joinTeam, queryScheduleById, getOpenId }
 
