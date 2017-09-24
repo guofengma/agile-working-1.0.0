@@ -41,7 +41,7 @@
         </view>
       </view>
       <view class="page-section-spacing">
-        <scroll-view scroll-y style="height: 200px;">
+        <scroll-view scroll-y style="{{scrollYStyle}}">
           <view wx:for="{{meetingRooms}}" wx:key="id">
             <view class="kind-list" hidden="{{activeIndex != index}}">
 
