@@ -180,7 +180,7 @@ function joinSchedule(url, userInfo, currentscheduleDetail, openId,token,formId)
       if (res.data.success) {
         var currentschedule = JSON.stringify(res.data.payload);
         wx.navigateTo({
-          url: '../detail/detail?currentschedule=' + currentschedule + '&isHidden=true',
+          url: '../detail/detail?currentscheduleId=' + currentscheduleDetail.id + '&isHidden=true',
         })
         console.log("========================加入会议成功====================");
       }
