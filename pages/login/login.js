@@ -1,5 +1,5 @@
 let app = getApp();
-import { queryTeam, queryTeamMember } from "../../service/service.js"
+import { queryTeam, queryTeamMember, getOpenId } from "../../service/service.js"
 Page({
   data: {
     teamIndex: 0,
@@ -11,10 +11,16 @@ Page({
         teams: app.globalData.teams
       })
       app.globalData.teamId = that.data.teams[0].id
-
-
     })
-
+    try {
+      var isLogin = wx.getStorageSync('isLogin')
+      if(isLogin){
+        this.loginBtnClick()
+      } 
+    } catch (e) {
+      
+    }
+    
   },
   bindSelectTeam: function (e) {
     console.log("选择的值：" + e.detail.value)
@@ -26,21 +32,76 @@ Page({
     app.globalData.teamId = this.data.teams[e.detail.value].id
     console.log("选择的id" + app.globalData.teamId)
   },
-  //登录按钮点击事件，调用参数要用：this.data.参数；
-  //设置参数值，要使用this.setData({}）方法
+
   loginBtnClick: function (e) {
-    queryTeamMember(app.globalData.url, app, function (member) {
-      console.log("回调函数")
-      if (app.globalData.member != null) {
-        wx.switchTab({
-          url: '../schedule/list',
+    
+    var that = this
+    if (app.globalData.teamId == '' || app.globalData.openId == '') {
+      wx.showLoading({
+        title: '加载中',
+      })
+      queryTeam(app.globalData.url, app, function (teams) {
+        that.setData({
+          teams: app.globalData.teams
         })
-      }
-      else {
-        wx.navigateTo({
-          url: '../regist/regist',
-        })
-      }
-    })
+        app.globalData.teamId = that.data.teams[0].id
+        if (app.globalData.openId == '') {
+          wx.login({
+            success: function (res) {
+              getOpenId(app, res.code, function (openId) {
+                app.globalData.openId = openId
+                wx.hideLoading()
+                queryTeamMember(app.globalData.url, app, function (member) {
+                  console.log("回调函数")
+                  if (app.globalData.member != null) {
+                    wx.setStorageSync('isLogin', true)
+                    wx.switchTab({
+                      url: '../schedule/list',
+                    })
+                  }
+                  else {
+                    wx.navigateTo({
+                      url: '../regist/regist',
+                    })
+                  }
+                })
+              })
+            }
+          })
+        } else {
+          wx.hideLoading()
+          queryTeamMember(app.globalData.url, app, function (member) {
+            console.log("回调函数")
+            if (app.globalData.member != null) {
+              wx.setStorageSync('isLogin', true)
+              wx.switchTab({
+                url: '../schedule/list',
+              })
+            }
+            else {
+              wx.navigateTo({
+                url: '../regist/regist',
+              })
+            }
+          })
+        }
+      })
+    }
+    else{
+      queryTeamMember(app.globalData.url, app, function (member) {
+        console.log("回调函数")
+        if (app.globalData.member != null) {
+          wx.setStorageSync('isLogin', true)
+          wx.switchTab({
+            url: '../schedule/list',
+          })
+        }
+        else {
+          wx.navigateTo({
+            url: '../regist/regist',
+          })
+        }
+      })
+    }
   }
-  })
+})
