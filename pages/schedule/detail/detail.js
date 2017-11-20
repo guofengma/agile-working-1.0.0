@@ -129,7 +129,7 @@ Page({
   },
   onShareAppMessage: function (res) {
     wx.showShareMenu({
-      withShareTicket: true
+      withShareTicket: false
     })
     var that = this;
     if (res.from == 'menu') {
