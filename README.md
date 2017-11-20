@@ -18,4 +18,5 @@
 #### 参与者列表："pages/schedule/participant/participant",
 #### 修改会议页面："pages/schedule/modify/modify",
 #### 用户页面："pages/user/user"
-
+ 
+# 版本号1.0.4
